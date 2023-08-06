@@ -1,0 +1,10 @@
+/.vs
+*/.vs
+/AppPackages
+*/x64
+*/x86
+*/ARM
+*/ARM64
+*.exe
+*/Release
+*/Debug

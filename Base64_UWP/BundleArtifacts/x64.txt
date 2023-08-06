@@ -1,0 +1,1 @@
+MainPackage=C:\Users\sfc9982\Desktop\vs2017\WinAPI\x64\Release\Base64_UWP\Base64_UWP_1.0.0.0_x64.msix
