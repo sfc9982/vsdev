@@ -17,8 +17,8 @@ std::string encryptStr(std::string str) {
         ::memset(key, 0x01, CryptoPP::CIPHER::DEFAULT_KEYLENGTH);
         ::memset(iv, 0x01, CryptoPP::CIPHER::BLOCKSIZE);
 
-        std::string PlainText = str;
-        std::string CipherText;
+        const std::string &PlainText = str;
+        std::string        CipherText;
 
 #ifdef IV
         CryptoPP::CIPHER_NAME<CryptoPP::CIPHER>::Encryption Encryptor(key, sizeof(key), iv);
@@ -85,8 +85,8 @@ std::string decryptStr(std::string str) {
         ::memset(key, 0x01, CryptoPP::CIPHER::DEFAULT_KEYLENGTH);
         ::memset(iv, 0x01, CryptoPP::CIPHER::BLOCKSIZE);
 
-        std::string CipherText = str;
-        std::string RecoveredText;
+        const std::string &CipherText = str;
+        std::string        RecoveredText;
 
 #ifdef IV
         CryptoPP::CIPHER_NAME<CryptoPP::CIPHER>::Decryption Decryptor(key, sizeof(key), iv);
