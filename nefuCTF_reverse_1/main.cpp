@@ -8,6 +8,7 @@
 int main(int argc, char *argv[]) {
 #ifndef _DEBUG
     if (IsDebuggerPresent()) {
+        std::cerr << "Hey! No debugger allowed here." << std::endl;
         exit(1);
     }
 #endif // !_DEBUG
