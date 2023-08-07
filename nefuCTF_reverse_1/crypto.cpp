@@ -1,9 +1,15 @@
 ﻿#include "stdafx.h"
 
 void hexdumpStr(std::string str) {
+    std::cout << "Hex Dump:" << std::endl;
     std::cout << std::hex << std::uppercase;
+    std::cout << "{";
     for (auto c : str) {
-        std::cout << "0x" << (static_cast<unsigned>(c) & 0xff) << ", ";
+        std::cout << "0x" << (static_cast<unsigned>(c) & 0xff) << [&str](char c) {
+            if (c != str.back())
+                return ", ";
+            return "}";
+        }(c);
     }
     std::cout << std::endl;
 }
