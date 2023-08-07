@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nefuCTF_reverse_1", "nefuCT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "random_device", "random_device\random_device.vcxproj", "{B6E402AF-9F62-44A3-B8F4-6D92593A4348}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DiscordRPC", "DiscordRPC\DiscordRPC.vcxproj", "{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -223,6 +225,18 @@ Global
 		{B6E402AF-9F62-44A3-B8F4-6D92593A4348}.Release|x64.Build.0 = Release|x64
 		{B6E402AF-9F62-44A3-B8F4-6D92593A4348}.Release|x86.ActiveCfg = Release|Win32
 		{B6E402AF-9F62-44A3-B8F4-6D92593A4348}.Release|x86.Build.0 = Release|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|ARM.ActiveCfg = Debug|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|x64.ActiveCfg = Debug|x64
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|x64.Build.0 = Debug|x64
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|x86.ActiveCfg = Debug|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Debug|x86.Build.0 = Debug|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|ARM.ActiveCfg = Release|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|ARM64.ActiveCfg = Release|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|x64.ActiveCfg = Release|x64
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|x64.Build.0 = Release|x64
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|x86.ActiveCfg = Release|Win32
+		{C735FACB-3A1A-45A4-B65C-F62E1044ADC7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
