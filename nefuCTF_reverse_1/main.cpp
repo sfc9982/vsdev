@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     assert(CustomKey.length() == CryptoPP::CIPHER::DEFAULT_KEYLENGTH && "Invalid Key Length.");
 
 #ifdef _DEBUG
-    std::string flag = "flag{do_or_do_not_there_is_no_try}";
+    const std::string flag = "flag{do_or_do_not_there_is_no_try}";
     hexdumpStr(encryptStr(flag));
     std::cout << std::endl;
 
@@ -30,15 +30,18 @@ int main(int argc, char *argv[]) {
 #endif // !_DEBUG
 
     {
-        std::mt19937  mt(std::random_device{}());
-        auto          dice_rand   = std::bind(std::uniform_int_distribution<int>(1, 6), mt);
-        std::set<int> valid_input = {1, 2, 3, 4, 5, 6};
+        const std::set<int>                      valid_input = {1, 2, 3, 4, 5, 6};
+        std::mt19937                             mt(std::random_device{}());
+        const std::uniform_int_distribution<int> dice_dist(1, 6);
+        auto                                     dice_rand = [&]() -> int { return dice_dist(mt); };
+        // auto dice_rand = std::bind(dice_dist, mt);
 
         volatile int point = dice_rand();
         int          offer = 0;
 
-        std::cout << "I promise to never cheat against you,\n"
-                     "please give me your offer (1-6): ";
+        std::cout << "I'm throwing dice, you can guess which number I have,\n"
+                  << "I promise to never cheat against you,\n"
+                  << "please give me your offer (1-6): ";
         std::cin >> offer;
         if (!valid_input.count(offer)) {
             std::cerr << "Invalid input!" << std::endl;
