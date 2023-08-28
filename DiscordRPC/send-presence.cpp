@@ -28,12 +28,11 @@ static int prompt(std::string &line) {
 
 static void updateDiscordPresence() {
     if (SendPresence) {
-        char                buffer[256];
+        std::string         buffer = fmt::format("Frustration Level: {}", FrustrationLevel);
         DiscordRichPresence discordPresence;
         memset(&discordPresence, 0, sizeof(discordPresence));
-        discordPresence.state = "West of House";
-        sprintf(buffer, "Frustration level: %d", FrustrationLevel);
-        discordPresence.details        = buffer;
+        discordPresence.state          = "West of House";
+        discordPresence.details        = buffer.c_str();
         discordPresence.startTimestamp = StartTime;
         discordPresence.endTimestamp   = time(nullptr) + 5 * 60;
         discordPresence.largeImageKey  = "canary-large";
@@ -76,14 +75,14 @@ static void handleDiscordSpectate(const char *secret) {
 }
 
 static void handleDiscordJoinRequest(const DiscordUser *request) {
-    int         response = -1;
+    int         response = DISCORD_REPLY_INVALID;
     std::string yn;
     fmt::println("\nDiscord: join request from {}#{} - {}",
                  request->username,
                  request->discriminator,
                  request->userId);
     do {
-        fmt::print("Accept? (y/n)");
+        fmt::println("Accept? (y/n)");
         if (!prompt(yn)) {
             break;
         }
@@ -128,6 +127,15 @@ static void gameLoop() {
     while (prompt(line)) {
         auto &seq = line[0];
         if (seq) {
+            if (seq == '?') {
+                fmt::println("Usage:\n"
+                             " q: Quit\n"
+                             " t: Shutdown\n"
+                             " c: Switch\n"
+                             " y: Re-init\n");
+                continue;
+            }
+
             if (seq == 'q') {
                 fmt::println("Now leaving...");
                 break;

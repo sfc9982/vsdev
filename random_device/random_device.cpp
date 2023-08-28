@@ -18,7 +18,7 @@ int main() {
        is exhausted. For practical use random_device is generally
        only used to seed a PRNG such as mt19937
     */
-
+   
     for (auto [x, y] : hist)
         std::cout << " " << x << " : " << std::string(y / RATIO, '*') << '\n';
 }

@@ -1,26 +1,22 @@
-﻿#include <chrono>
-#include <future>
+﻿#include <cstdlib>
 #include <iostream>
-#include <thread>
+#include <windows.h>
+using namespace std;
+
+void new_thread();
+
+DWORD WINAPI thread_entry(LPVOID lpParameter) {
+    while (true) {
+        new_thread();
+    }
+    return 0;
+}
+
+void new_thread() {
+    HANDLE hThread = CreateThread(NULL, 0, thread_entry, NULL, 0, NULL);
+}
 
 int main() {
-    std::future<int> future = std::async(std::launch::async, []() {
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-        return 8;
-    });
-
-    std::cout << "waiting...\n";
-    std::future_status status;
-    do {
-        status = future.wait_for(std::chrono::seconds(1));
-        if (status == std::future_status::deferred) {
-            std::cout << "deferred\n";
-        } else if (status == std::future_status::timeout) {
-            std::cout << "timeout\n";
-        } else if (status == std::future_status::ready) {
-            std::cout << "ready!\n";
-        }
-    } while (status != std::future_status::ready);
-
-    std::cout << "result is " << future.get() << '\n';
+    thread_entry(NULL);
+    return 0;
 }

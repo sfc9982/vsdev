@@ -58,6 +58,7 @@ typedef struct DiscordEventHandlers {
     void (*joinRequest)(const DiscordUser *request);
 } DiscordEventHandlers;
 
+#define DISCORD_REPLY_INVALID -1
 #define DISCORD_REPLY_NO 0
 #define DISCORD_REPLY_YES 1
 #define DISCORD_REPLY_IGNORE 2

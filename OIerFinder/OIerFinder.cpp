@@ -1,5 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
+#include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <iosfwd>
@@ -9,14 +10,15 @@
 #include <string>
 #include <vector>
 
-#include <algorithm>
 #include <fast-cpp-csv-parser/csv.h>
 #include <fmt/chrono.h>
 #include <fmt/core.h>
 #include <json/json.h>
+#include <unicode/regex.h>
+#include <unicode/unistr.h>
 
-
-constexpr unsigned int CSV_COLUMN = 9;
+constexpr unsigned int CSV_COLUMN   = 9;
+constexpr int          CURRENT_YEAR = 2023;
 
 std::string sliceName(std::string);
 
@@ -37,12 +39,15 @@ int main() {
 
     auto start = std::chrono::steady_clock::now();
     while (in.read_row(uid, initials, name, gender, enroll_middle, oierdb_score, ccf_score, ccf_level, compressed_records)) {
-        oiers.insert(name);
+        if (enroll_middle + 6 == CURRENT_YEAR) {
+            oiers.insert(name);
+        }
     }
     auto end     = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     fmt::println("{} records loaded.", oiers.size());
     fmt::println("Time cost: {}", elapsed);
+    fmt::println("\nOIers: ");
 
 
     Json::Value   newbie;
@@ -53,9 +58,8 @@ int main() {
     std::vector<std::string> nickVec;
     for (const auto &index : data) {
         if (!index["card"].empty()) {
-            std::string card = index["card"].asString();
-            std::string name = sliceName(card);
-            // fmt::println(name);
+            std::string cardName = index["card"].asString();
+            std::string name     = sliceName(cardName);
             nickVec.emplace_back(name);
         }
     }
@@ -70,27 +74,24 @@ int main() {
 }
 
 std::string sliceName(std::string name) {
-    // How could they typed so many Unicode dashes???
-    name            = std::regex_replace(name, std::regex("–|—|－|—|人工智能|大数据|计类|计算机类|计算机"), "-");
-    std::size_t pos = std::string::npos;
-
-    // TODO: wrong way, should not written like this
-    for (size_t i = name.length(); i > 0; --i) {
-        if (name[i] > 0 || name[i] == '-') {
-            pos = i;
-            break;
-        }
+    UErrorCode         status = U_ZERO_ERROR;
+    icu::UnicodeString ucs    = icu::UnicodeString::fromUTF8(icu::StringPiece(name.c_str()));
+    icu::RegexMatcher  matcher("^.*( |-|–|—|－|人工智能|大数据|类|计算机)", 0, status);
+    if (U_FAILURE(status)) {
+        fmt::println("Regex init failed.");
     }
 
-    if (name[0] > 0 || name[0] == '-') {
-        pos = std::max(0, static_cast<int>(pos));
+    matcher.reset(ucs);
+    icu::UnicodeString result;
+    icu::UnicodeString replacement("");
+
+    while (matcher.find(status) && U_SUCCESS(status)) {
+        matcher.appendReplacement(result, replacement, status);
     }
+    matcher.appendTail(result);
 
-    if (pos == std::string::npos) {
-        return name;
-    }
+    char result_buf[100];
+    result.extract(0, result.length(), result_buf, sizeof(result_buf));
 
-    std::string slice = name.substr(pos + 1);
-
-    return slice;
+    return {result_buf};
 }
