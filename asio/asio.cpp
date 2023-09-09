@@ -1,11 +1,19 @@
+//
+// sync_client.cpp
+// ~~~~~~~~~~~~~~~
+//
+// Copyright (c) 2003-2023 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+//
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+//
+
 #include <iostream>
+#include <istream>
+#include <ostream>
 #include <string>
 
-#include "asio.hpp"
-#include "asio/ts/buffer.hpp"
-#include "asio/ts/internet.hpp"
-
-#pragma comment(lib, "asio.lib")
+#include <asio.hpp>
 
 using asio::ip::tcp;
 
@@ -15,19 +23,27 @@ int main(int argc, char *argv[]) {
             std::cout << "Usage: sync_client <server> <path>\n";
             std::cout << "Example:\n";
             std::cout << "  sync_client www.boost.org /LICENSE_1_0.txt\n";
-            return 1;
+
+            char             server[] = "www.google.com";
+            char             path[]   = "/robots.txt";
+            constexpr size_t servsz   = sizeof(server);
+            constexpr size_t pathsz   = sizeof(path);
+            argv[1]                   = new char[servsz];
+            argv[2]                   = new char[pathsz];
+            strcpy_s(argv[1], servsz, server);
+            strcpy_s(argv[2], pathsz, path);
+            // return 1;
         }
 
-        asio::io_service io_service;
+        asio::io_context io_context;
 
         // Get a list of endpoints corresponding to the server name.
-        tcp::resolver           resolver(io_service);
-        tcp::resolver::query    query(argv[1], "http");
-        tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
+        tcp::resolver               resolver(io_context);
+        tcp::resolver::results_type endpoints = resolver.resolve(argv[1], "http");
 
         // Try each endpoint until we successfully establish a connection.
-        tcp::socket socket(io_service);
-        asio::connect(socket, endpoint_iterator);
+        tcp::socket socket(io_context);
+        asio::connect(socket, endpoints);
 
         // Form the request. We specify the "Connection: close" header so that the
         // server will close the socket after transmitting the response. This will
@@ -62,7 +78,7 @@ int main(int argc, char *argv[]) {
         }
         if (status_code != 200) {
             std::cout << "Response returned with status code " << status_code << "\n";
-            return 1;
+            // return 1;
         }
 
         // Read the response headers, which are terminated by a blank line.
