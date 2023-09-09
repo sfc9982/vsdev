@@ -135,7 +135,6 @@ static void gameLoop() {
                              " y: Re-init\n");
                 continue;
             }
-
             if (seq == 'q') {
                 fmt::println("Now leaving...");
                 break;

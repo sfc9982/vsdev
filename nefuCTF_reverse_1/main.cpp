@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
     std::cout << std::endl;
 
     goto show_flag;
-
     exit(0);
 #endif // _DEBUG
 
@@ -63,6 +62,6 @@ show_flag:
     std::string str(reinterpret_cast<char *>(test));
     std::cout << "So lucky you are! :)" << '\n';
     std::cout << decryptStr(str) << std::endl;
-
+  
     return 0;
 }

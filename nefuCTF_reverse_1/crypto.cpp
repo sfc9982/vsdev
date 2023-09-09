@@ -32,7 +32,6 @@ std::string encryptStr(const std::string &str) {
         if (useCustomKey) {
             memcpy(key, CustomKey.c_str(), sizeof(key));
         }
-
         const std::string &PlainText = str;
         std::string        CipherText;
 
@@ -69,7 +68,8 @@ std::string decryptStr(const std::string &str) {
         if (useCustomKey) {
             memcpy(key, CustomKey.c_str(), sizeof(key));
         }
-
+      
+      
         const std::string &CipherText = str;
         std::string        RecoveredText;
 
