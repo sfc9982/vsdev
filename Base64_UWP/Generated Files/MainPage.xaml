@@ -1,0 +1,18 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="Base64_UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Base64_UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="367" Width="445" MinHeight="367" MinWidth="445"                            >
+
+    <Grid Margin="0,0,-0.2,0.2">
+        <Button x:ConnectionId='2' x:Name="btnEncode" Content="Encode" HorizontalAlignment="Left" Margin="0,315,0,0" VerticalAlignment="Top" Height="42" Width="223" FontFamily="Segoe UI"                      />
+        <Button x:ConnectionId='3' x:Name="btnDecode" Content="Decode" HorizontalAlignment="Left" Height="42" Margin="228,315,0,0" VerticalAlignment="Top" Width="217"                      />
+        <RichEditBox x:ConnectionId='4' x:Name="textBox" HorizontalAlignment="Center" VerticalAlignment="Top" Height="310" Width="445" Margin="0,0,0,0" PlaceholderText="Enter message here." IsSpellCheckEnabled="False"/>
+
+    </Grid>
+</Page>
+
