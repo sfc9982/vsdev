@@ -80,16 +80,20 @@ int main(int /*argc*/, char * /*argv*/[]) {
             std::string       str;
             std::stringstream ss;
 
-            ss << std::noskipws;
             ss << std::hex << std::uppercase;
+            ss << "{";
             for (auto c : CipherText) {
-                ss << "0x" << static_cast<signed>(c) << ", ";
+                ss << "0x" << static_cast<signed>(c & 0xff);
+                if (c != CipherText.back()) {
+                    ss << ", ";
+                } else {
+                    ss << ", 0x0}";
+                }
             }
 
             std::getline(ss, str);
             return str;
-        }()
-                << std::endl;
+        }() << std::endl;
         std::cout << std::endl;
 
         std::cout << "Recovered Text:" << std::endl;

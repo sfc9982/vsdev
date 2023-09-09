@@ -127,6 +127,14 @@ static void gameLoop() {
     while (prompt(line)) {
         auto &seq = line[0];
         if (seq) {
+            if (seq == '?') {
+                fmt::println("Usage:\n"
+                             " q: Quit\n"
+                             " t: Shutdown\n"
+                             " c: Switch\n"
+                             " y: Re-init\n");
+                continue;
+            }
             if (seq == 'q') {
                 fmt::println("Now leaving...");
                 break;
