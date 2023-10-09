@@ -1,0 +1,2 @@
+#define AESDLL_API __declspec(dllexport)
+#define AESDLL_API __declspec(dllimport)
