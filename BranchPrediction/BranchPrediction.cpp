@@ -12,7 +12,7 @@ int main() {
         c = std::rand() % 256;
     }
 
-    // std::sort(data, data + arraySize);
+    //std::sort(data, data + arraySize);
 
     long long sum = 0;
 
@@ -20,8 +20,8 @@ int main() {
 
     for (unsigned i = 0; i < RANGESZ; ++i) {
         for (unsigned c = 0; c < arraySize; ++c) {
-            if (data[c] >= 128)
-                sum += data[c];
+            int t = (data[c] - 128) >> 31;
+            sum += ~t & data[c];
         }
     }
 
