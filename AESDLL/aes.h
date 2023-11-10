@@ -15,7 +15,7 @@
 // The #ifndef-guard allows it to be configured before #include'ing or at compile time.
 #include "config.h"
 
-#define AES_BLOCKLEN 16 // Block length in bytes - AES is 128b block only
+constexpr auto AES_BLOCKLEN = 16; // Block length in bytes - AES is 128b block only;
 
 #if defined(AES256) && (AES256 == 1)
 #define AES_KEYLEN 32
