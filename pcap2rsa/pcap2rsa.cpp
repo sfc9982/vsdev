@@ -3,9 +3,9 @@
 
 #include <boost/regex.hpp>
 
-#include <Packet.h>
-#include <PcapFileDevice.h>
-#include <TcpLayer.h>
+#include <pcapplusplus/Packet.h>
+#include <pcapplusplus/PcapFileDevice.h>
+#include <pcapplusplus/TcpLayer.h>
 
 #pragma comment(lib, "ws2_32")
 
@@ -14,20 +14,15 @@
 std::string extract_payload(const std::string &payload, const std::string &parameter) {
     const boost::regex pattern(parameter + "=([^&]+)");
     boost::smatch      match;
-
     if (boost::regex_search(payload, match, pattern)) {
         if (match.size() > 1) {
             return match[1].str();
         }
     }
-
     return std::string{};
 }
 
 int main(int argc, char *argv[]) {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-
     args::ArgumentParser          parser("pcap2para - extract parameter of HTTP from PCAP/PCAPNG traffic files",
                                 R"(Example: pcap2rsa.exe -p rsa -o test.txt "D:\Code\PayloadExtract\9.14.pcapng")");
     args::HelpFlag                help(parser, "help", "Display this help menu", {'h', "help"});
@@ -51,7 +46,6 @@ int main(int argc, char *argv[]) {
     }
 
     bool debug = false;
-
     if (debug_mode) {
         debug = args::get(debug_mode);
         if (extpara) {
@@ -65,13 +59,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    std::ofstream fout(args::get(output_file));
-
+    std::ofstream     fout(args::get(output_file));
     const std::string pcap_path = (args::get(input_file));
     std::string       para(args::get(extpara));
 
     pcpp::IFileReaderDevice *reader = pcpp::IFileReaderDevice::getReader(pcap_path);
-
     if (reader == nullptr) {
         std::cerr << "Cannot determine reader for file type" << std::endl;
         return 1;
@@ -83,7 +75,6 @@ int main(int argc, char *argv[]) {
     }
 
     pcpp::RawPacket raw_packet;
-
     if (!reader->getNextPacket(raw_packet)) {
         std::cerr << "Couldn't read the first packet in the file" << std::endl;
         return 1;
@@ -110,7 +101,6 @@ int main(int argc, char *argv[]) {
     }
 
     std::cout << std::flush;
-
     reader->close();
 
     return 0;
